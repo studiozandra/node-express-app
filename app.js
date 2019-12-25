@@ -4,6 +4,9 @@ const express = require('express'); // bring in the Express module
 
 const app = express(); // initialize the app
 
+//Index route
+app.get();
+
 const port = 5000;
 
 // pass in port number and callback arrow function
