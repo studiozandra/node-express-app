@@ -15,9 +15,9 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-// About page route
+// About page route. insted of res.send('some text'), res.render('about') fills the 'main' layout {{{body}}} with the 'about' content
 app.get('/about', (req, res) => {
-    res.send('ABOUT');
+    res.render('about');
 });
 
 const port = 5000;
