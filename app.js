@@ -1,8 +1,15 @@
 // Entry point file
 const express = require('express'); // bring in the Express module
 const expbh = require('express-handlebars')
+const mongoose = require('mongoose');
 
 const app = express(); // initialize the app
+
+// Connect to mongoose
+// could be a remote db from mlab, or a local db
+mongoose.connect('mongodb://localhost/vidjot-dev', {
+    useMongoClient: true
+});
 
 //Handlebars Middleware:
 app.engine('handlebars', expbh({
