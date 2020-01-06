@@ -5,10 +5,12 @@ const mongoose = require('mongoose');
 
 const app = express(); // initialize the app
 
+
 // Connect to mongoose. It will respond with a promise, we catch it with .then
 // could be a remote db from mlab, or a local db
 mongoose.connect('mongodb://localhost/vidjot-dev', {
-    useMongoClient: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 .then(()=> console.log('MongoDB connected...')) // if connection goes ok, this will log out
 .catch(err => console.log(err)); // if it can't connect, it will log the error
