@@ -9,11 +9,16 @@ const app = express(); // initialize the app
 // Connect to mongoose. It will respond with a promise, we catch it with .then
 // could be a remote db from mlab, or a local db
 mongoose.connect('mongodb://localhost/vidjot-dev', {
+    useMongoClient: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
 .then(()=> console.log('MongoDB connected...')) // if connection goes ok, this will log out
 .catch(err => console.log(err)); // if it can't connect, it will log the error
+
+// Load Idea Model into a variable. ./models - dot slash means 'look in the current dir for the file'
+require('./models/Idea');
+const Idea = mongoose.model('ideas');
 
 //Handlebars Middleware:
 app.engine('handlebars', expbh({
