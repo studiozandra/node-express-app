@@ -16,3 +16,5 @@ const IdeaSchema = new Schema({
         default: Date.now
     }
 });
+
+mongoose.model('ideas', IdeaSchema); // this is our model, which we will use in some routes
