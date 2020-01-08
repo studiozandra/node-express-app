@@ -35,10 +35,15 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-// Add Idea form
+// Add Idea form, GET request
 app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
 });
+
+// Process the form submission (POST request)
+app.post('/ideas', (req, res) => {
+    res.send('ok dude');
+})
 
 const port = 5000;
 
