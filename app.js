@@ -9,7 +9,6 @@ const app = express(); // initialize the app
 // Connect to mongoose. It will respond with a promise, we catch it with .then
 // could be a remote db from mlab, or a local db
 mongoose.connect('mongodb://localhost/vidjot-dev', {
-    useMongoClient: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
