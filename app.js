@@ -35,6 +35,11 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
+// Add Idea form
+app.get('/ideas/add', (req, res) => {
+    res.render('ideas/add');
+});
+
 const port = 5000;
 
 // listen method, pass in port number and callback arrow function
