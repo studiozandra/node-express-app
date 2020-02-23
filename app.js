@@ -50,6 +50,6 @@ const port = 5000;
 // listen method, pass in port number and callback arrow function
 app.listen(port, () => {
     // ES6 template literal, includes variables w/o having to concatenate the 'port' variable
-    console.log(`Let's get it started on port ${port}`)
+    console.log(`Let's get it started on localhost: ${port}`)
 });
 // navigate to localhost:5000/
