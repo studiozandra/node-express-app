@@ -1,6 +1,7 @@
 // Entry point file
 const express = require('express'); // bring in the Express module
-const expbh = require('express-handlebars')
+const expbh = require('express-handlebars');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express(); // initialize the app
@@ -25,6 +26,10 @@ app.engine('handlebars', expbh({
 }));
 app.set('view engine', 'handlebars');
 
+// Body-parser middleware - allows us to access the form submissions in the page body
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 //Index route, request and response
 app.get('/', (req, res) => {
     res.render('index');
@@ -40,8 +45,9 @@ app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
 });
 
-// Process the form submission (POST request)
+// Process the form submission (POST req object (request))
 app.post('/ideas', (req, res) => {
+    console.log(req.body);
     res.send('ok dude');
 })
 
