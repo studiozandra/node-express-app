@@ -47,8 +47,21 @@ app.get('/ideas/add', (req, res) => {
 
 // Process the form submission (POST req object (request))
 app.post('/ideas', (req, res) => {
-    console.log(req.body);
-    res.send('ok dude');
+    // console.log(req.body);
+    // res.send('ok dude');
+    let errors = [];
+
+    if (!req.body.title){
+        errors.push( {text:'Please add a title'} );
+    }
+
+    if (!req.body.details){
+        errors.push( {text:'Please add some details'} );
+    }
+
+    if(errors.length > 0){
+        res.render('ideas/add', )
+    }
 })
 
 const port = 5000;
