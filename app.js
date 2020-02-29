@@ -49,9 +49,10 @@ app.get('/ideas/add', (req, res) => {
 app.post('/ideas', (req, res) => {
     // console.log(req.body);
     // res.send('ok dude');
-    let errors = [];
+    let errors = []; // set to empty array
 
-    if (!req.body.title){
+    if (!req.body.title){ // check if object containing all of our form fields contains a title
+        console.log("no title")
         errors.push( {text:'Please add a title'} );
     }
 
@@ -59,10 +60,19 @@ app.post('/ideas', (req, res) => {
         errors.push( {text:'Please add some details'} );
     }
 
+    // re-render the add idea form if there are errors
     if(errors.length > 0){
-        res.render('ideas/add', )
+        res.render('ideas/add', {
+            errors: errors, // pass in the error msg
+            title: req.body.title, // preserves the user's title during re-render
+            details: req.body.details // preserves the details they entered
+        });
+
+    } else {
+        res.send('passed'); // display a 'passed' blank page
     }
-})
+
+});
 
 const port = 5000;
 
