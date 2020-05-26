@@ -40,6 +40,11 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
+// Idea page route
+app.get('/ideas', (req, res) =>{
+    res.render('/ideas/index'); // create index.handlebars inside the views/ideas folder
+});
+
 // Add Idea form, GET request
 app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
