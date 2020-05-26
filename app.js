@@ -1,6 +1,6 @@
 // Entry point file
 const express = require('express'); // bring in the Express module
-const expbh = require('express-handlebars');
+const exphb = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -21,7 +21,7 @@ require('./models/Idea');
 const Idea = mongoose.model('ideas');
 
 //Handlebars Middleware:
-app.engine('handlebars', expbh({
+app.engine('handlebars', exphb({
     defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
@@ -69,7 +69,20 @@ app.post('/ideas', (req, res) => {
         });
 
     } else {
-        res.send('passed'); // display a 'passed' blank page
+        // res.send('passed'); // display a 'passed' blank page to test
+        const newUser = {
+            title: req.body.title,
+            details: req.body.details
+            // user: req.user.id -- we can add later, scalable
+
+        }
+        new Idea(newUser) // pass in the data we want to save, in this case, an object
+        .save()
+        .then(idea => {
+            res.redirect('/ideas');
+        }) //returns a promise
+
+        
     }
 
 });
@@ -81,4 +94,4 @@ app.listen(port, () => {
     // ES6 template literal, includes variables w/o having to concatenate the 'port' variable
     console.log(`Let's get it started on localhost: ${port}`)
 });
-// navigate to localhost:5000/
+// command line - node app.js, navigate to localhost:5000/
