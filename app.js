@@ -41,8 +41,15 @@ app.get('/about', (req, res) => {
 });
 
 // Idea page route
-app.get('/ideas', (req, res) =>{
-    res.render('/ideas/index'); // create index.handlebars inside the views/ideas folder
+app.get('/ideas', (req, res) => {
+    Idea.find({}) // we want to fetch our ideas saved in the db and render them in the HTML view
+    .sort({date:'desc'}) // descending order. we will loop through ideas
+    .then(ideas => {
+        res.render('ideas/index',{
+            ideas:ideas
+        });
+    }) 
+     // create index.handlebars inside the views/ideas folder
 });
 
 // Add Idea form, GET request
