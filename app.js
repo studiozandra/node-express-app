@@ -57,6 +57,18 @@ app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
 });
 
+// Edit Idea form, GET request. findOne idea, not an array. MongoDB query
+app.get('/ideas/edit/:id', (req, res) => {
+    Idea.findOne({
+        _id: req.params.id
+    })
+    .then(idea => {
+        res.render('ideas/edit', {idea:idea});
+        // passing in the single idea as a parameter
+    });
+    
+});
+
 // Process the form submission (POST req object (request))
 app.post('/ideas', (req, res) => {
     // console.log(req.body);
