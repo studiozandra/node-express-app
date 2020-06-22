@@ -135,6 +135,16 @@ app.put('/ideas/:id', (req, res) => {
     });
 });
 
+// Delete Idea - Catch Delete request. As long as the method is diff, URLs can be the same
+app.delete('/ideas/:id', (req, res) => {
+    // res.send('DELETE');  Test out our route, like a console.log
+    Idea.remove({_id: req.params.id})
+    .then(() => {
+        res.redirect('/ideas');
+    })
+});
+
+
 const port = 5000;
 
 // listen method, pass in port number and callback arrow function
