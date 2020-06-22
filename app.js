@@ -1,5 +1,6 @@
 // Entry point file
 const express = require('express'); // bring in the Express module
+const methodOverride = require('method-override')
 const exphb = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -29,6 +30,11 @@ app.set('view engine', 'handlebars');
 // Body-parser middleware - allows us to access the form submissions in the page body
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+// Method override middleware for form POST (adjust this in edit.handlebars form action:
+//     <form action="/ideas/{{idea.id}}?_method=PUT" method="post">
+//     <input type="hidden" name="_method" value="PUT"> )
+app.use(methodOverride('_method'))
 
 //Index route, request and response
 app.get('/', (req, res) => {
@@ -109,6 +115,24 @@ app.post('/ideas', (req, res) => {
         
     }
 
+});
+
+// Edit Form PUT request process. Since we can't just change HTML form method to PUT, we need either AJAX req or module: methodOverride
+app.put('/ideas/:id', (req, res) => {
+    // update current video idea we are looking at
+    Idea.findOne({
+        _id: req.params.id 
+    })
+    .then(idea => {
+        //new values
+        idea.title = req.body.title;
+        idea.details = req.body.details;
+
+        idea.save() // returns a promise
+        .then(idea => {
+            res.redirect('/ideas');
+        })
+    });
 });
 
 const port = 5000;

@@ -6,7 +6,8 @@
 
 <div class="card card-body">
     <h3>Edit Video Idea</h3>
-    <form action="/ideas" method="post">
+    <form action="/ideas/{{idea.id}}?_method=PUT" method="post">
+    <input type="hidden" name="_method" value="PUT">
         <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" name="title" value="{{idea.title}}">
@@ -14,9 +15,9 @@
 
         <div class="form-group">
             <label for="details">Details</label>
-            <input type="text" class="form-control" name="details" required {{idea.details}}>
+            <input type="text" class="form-control" name="details" required value="{{idea.details}}">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-
+{{!-- will use "method override" module for Edit Video PUT request --}}
     </form>
 </div>
