@@ -1,6 +1,8 @@
-// Entry point file
+// Entry point file (import all your packages)
 const express = require('express'); // bring in the Express module
 const methodOverride = require('method-override')
+const flash = require('connect-flash');
+const session = require('express-session');
 const exphb = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -28,13 +30,32 @@ app.engine('handlebars', exphb({
 app.set('view engine', 'handlebars');
 
 // Body-parser middleware - allows us to access the form submissions in the page body
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Method override middleware for form POST (adjust this in edit.handlebars form action:
 //     <form action="/ideas/{{idea.id}}?_method=PUT" method="post">
 //     <input type="hidden" name="_method" value="PUT"> )
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
+
+// Express session has its own middleware:
+app.use(session({
+    secret: 'ceiling cat',
+    resave: true,
+    saveUninitialized: true,
+
+  }));
+
+// call Connect flash
+app.use(flash());
+
+// set global variables for our messages (create a new partial view in handlebars for these msgs)
+app.use(function(req, res, next){
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error'); // for "user not found"
+    next();
+})
 
 //Index route, request and response
 app.get('/', (req, res) => {
@@ -99,16 +120,17 @@ app.post('/ideas', (req, res) => {
         });
 
     } else {
-        // res.send('passed'); // display a 'passed' blank page to test
+        // res.send('passed'); // display a 'passed' blank page to test, sorta like a console.log
         const newUser = {
             title: req.body.title,
             details: req.body.details
             // user: req.user.id -- we can add later, scalable
 
         }
-        new Idea(newUser) // pass in the data we want to save, in this case, an object
+        new Idea(newUser) // pass in the data we want to save, in this case, an object (the new video idea)
         .save()
         .then(idea => {
+            req.flash('success_msg', 'Video idea added')
             res.redirect('/ideas');
         }) //returns a promise
 
@@ -130,6 +152,7 @@ app.put('/ideas/:id', (req, res) => {
 
         idea.save() // returns a promise
         .then(idea => {
+            req.flash('success_msg', 'Video idea updated')
             res.redirect('/ideas');
         })
     });
@@ -137,9 +160,10 @@ app.put('/ideas/:id', (req, res) => {
 
 // Delete Idea - Catch Delete request. As long as the method is diff, URLs can be the same
 app.delete('/ideas/:id', (req, res) => {
-    // res.send('DELETE');  Test out our route, like a console.log
+    // res.send('DELETED');  Test out our route, like a console.log
     Idea.remove({_id: req.params.id})
     .then(() => {
+        req.flash('success_msg', 'Video idea removed')
         res.redirect('/ideas');
     })
 });

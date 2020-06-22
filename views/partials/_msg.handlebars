@@ -1,0 +1,9 @@
+{{!-- This partial gets called inside main layout body. check for any success messages and display in div --}}
+{{#if success_msg}}
+<div class="alert alert-success">{{success_msg}}</div>
+{{/if}}
+
+{{!-- check for any error messages and display them --}}
+{{#if error_msg}}
+<div class="alert alert-danger">{{error_msg}}</div>
+{{/if}}
